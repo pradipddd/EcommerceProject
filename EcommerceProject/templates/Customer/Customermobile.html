@@ -1,0 +1,55 @@
+{% extends 'Customer/Base.html' %}
+{% load static %}
+
+
+{% block content %}
+<br><br>
+{% for mobi in users %}
+<div style="margin:3% 25%;">
+<div class="card mb-3">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{{mobi.mimage.url}}" style="width:100%;height: 100%;" class="img-fluid rounded-start" alt="Image Not Found">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title"><b style="font-size: large;">{{mobi.brand_name}} {{mobi.model_name}}</b></h5>
+                <p class="card-text">> {{mobi.ram}}&nbsp;Gb RAM</p>
+                <p class="card-text">> {{mobi.rom}}&nbsp;Gb ROM</p>
+                <p class="card-text">> {{mobi.processor}}&nbsp;Processor</p>
+                <p class="card-text"><b style="color: darkred;">> {{mobi.price}}&nbsp;Rs</b></p>
+                <p class="card-text">> {{mobi.warranty}}&nbsp;Months&nbsp;Warranty</p>
+                <p class="card-text">> {{mobi.product.seller}}&nbsp;Seller</p>
+                <p class="card-text"><a><button class="btn btn-warning">Add to Wishlist</button></a>&nbsp;<a href="{% url 'customermobileitem' mobi.id %}"><button class="btn btn-info">Add to Cart</button></a>&nbsp;&nbsp;<a href="#"><i class="bi bi-suit-heart-fill"></i><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-suit-heart-fill" style="color: lightslategray;" viewBox="0 0 16 16">
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+                  </svg></a></p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endfor %}
+<div style="margin:1% 25%;">
+    {% if users.has_other_pages %}
+  <ul class="pagination">
+    {% if users.has_previous %}
+      <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in users.paginator.page_range %}
+      {% if users.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if users.has_next %}
+      <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+</div>
+{% endblock %}

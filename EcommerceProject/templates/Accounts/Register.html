@@ -1,5 +1,8 @@
-{% extends 'Base.html' %}
+{% extends 'Customer/Base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+
 
 
 {% block title %}
@@ -8,14 +11,41 @@
 
     
 {% block content %}
-<div class="container" style="width: 70%;">
-    <h3 style="text-align: center;">Customer-Register</h3>
-    <form method="POST" class="jumbotron">
+<!-- <div class="form-group">
+<div class="d-flex flex-row justify-content-center">
+    <div class="row">
+      <div class="col-md">
+       <form  method="POST" style="background-color: rgb(224, 223, 223);">
         {% csrf_token %}
-        {{form|crispy}}
-        <button type="submit" class="btn btn-success">Register</button>
-    </form>
+         <div class="sign-in">Register-page</div>
+         {{form|crispy}}          
+
+<div class="d-flex justify-content-center mt-3 login_container">
+    <button type="submit" class="btn btn-primary" id="sign-in" >Register</button>
 </div>
+    
+  
+
+</form> 
+</div> -->
+
+<div class="jumbotron" id='lbg' style="width: 40%; margin: 2% 30% ; ">
+    <div style="background-color:red;">
+        {% if messages %}
+            {% for msj in messages %}
+                {{msj}}
+            {% endfor %}
+        {% endif %}
+      </div>
+    <h2 style="text-align: center;">Register-page</h2>
+    <form  method="POST"   style="font-size: medium;">
+        {% csrf_token %}
+        
+         
+         {{form|crispy}}          
+    <button type="submit" class="btn btn-primary btn-lg btn-block" >Register</button>
+</div>
+
 {% endblock %}
 
 
@@ -30,15 +60,4 @@
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+

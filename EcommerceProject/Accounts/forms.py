@@ -13,6 +13,7 @@ class CustomerCreationForm(UserCreationForm):
     def save(self):
         user = super().save(commit=False)
         user.is_customer = True
+        user.is_active=False
         user.save()
         nm=self.cleaned_data.get('name')
         customer = Customer.objects.create(user=user,name=nm)
@@ -30,6 +31,7 @@ class SellerCreationForm(UserCreationForm):
     def save(self):
         user = super().save(commit=False)
         user.is_seller = True
+        user.is_active=False
         user.save()
         a=self.cleaned_data.get('address')
         b=self.cleaned_data.get('bank_account')

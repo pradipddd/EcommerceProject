@@ -1,0 +1,35 @@
+from django.db import models
+from Customer.models import Customer
+
+class Country(models.Model):
+    country_name=models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.country_name
+
+class State(models.Model):
+    country=models.ForeignKey(Country,on_delete=models.CASCADE)
+    state_name=models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.state_name
+
+class City(models.Model):
+    state=models.ForeignKey(State,on_delete=models.CASCADE)
+    city_name=models.CharField(max_length=32)
+
+
+    def __str__(self):
+        return self.city_name
+
+
+class Address(models.Model):
+    customer=models.ForeignKey(Customer,on_delete=models.CASCADE)
+    fname = models.CharField(max_length=100)
+    lname = models.CharField(max_length=100,default=None)
+    mobile=models.BigIntegerField(default=None)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, blank=True, null=True)
+    state = models.ForeignKey(State, on_delete=models.CASCADE, blank=True, null=True)
+    city=models.ForeignKey(City,on_delete=models.CASCADE,blank=True, null=True)
+    address=models.CharField(max_length=500,default=None)
+    address_type=models.CharField(max_length=20,default=None)
