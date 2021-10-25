@@ -5,6 +5,10 @@ from .models import Order_item
 from Seller.models import *
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .filters import LaptopFilter,MobileFilter,GroceryFilter
+from .models import Custorders
+from .forms import Ordersform
+from CustomerProfile.models import Address
 
 
 
@@ -162,47 +166,155 @@ def Updateallitemview(request,pk):
         print('Updated!!!')
         return redirect('cartview')
 
-def Customerlaptopview (request):
-    user_list = Laptop.objects.all()
-    page = request.GET.get('page', 1)
+# def Customerlaptopview (request):
+#     user_list = Laptop.objects.all()
+#     page = request.GET.get('page', 1)
 
-    paginator = Paginator(user_list, 5)
+#     paginator = Paginator(user_list, 5)
+#     try:
+#         users = paginator.page(page)
+#     except PageNotAnInteger:
+#         users = paginator.page(1)
+#     except EmptyPage:
+#         users = paginator.page(paginator.num_pages)
+
+#     return render(request, 'Customer/Customerlaptop.html', { 'users': users })
+
+# def Customergroceryview (request):
+#     user_list = Grocery.objects.all()
+#     page = request.GET.get('page', 1)
+
+#     paginator = Paginator(user_list, 5)
+#     try:
+#         users = paginator.page(page)
+#     except PageNotAnInteger:
+#         users = paginator.page(1)
+#     except EmptyPage:
+#         users = paginator.page(paginator.num_pages)
+
+#     return render(request, 'Customer/Customergrocery.html', { 'users': users })
+
+
+# def Customermobileview (request):
+#     user_list = Mobile.objects.all()
+#     page = request.GET.get('page', 1)
+
+#     paginator = Paginator(user_list, 5)
+#     try:
+#         users = paginator.page(page)
+#     except PageNotAnInteger:
+#         users = paginator.page(1)
+#     except EmptyPage:
+#         users = paginator.page(paginator.num_pages)
+
+#     return render(request, 'Customer/Customermobile.html', { 'users': users })
+
+def showlaptop(request):
+    records = Laptop.objects.all()
+    laptopfilter = LaptopFilter(request.GET, queryset=records)
+    rec_per_page = Paginator(laptopfilter.qs, 3)
+    page = request.GET.get('page',1)
+    # print('PAGE=',page)
+    # print(rec_per_page.count)
+    # print(rec_per_page.num_pages)
+    # print(rec_per_page.page_range)
     try:
-        users = paginator.page(page)
+        rec = rec_per_page.page(page)
     except PageNotAnInteger:
-        users = paginator.page(1)
+        rec = rec_per_page.page(1)
     except EmptyPage:
-        users = paginator.page(paginator.num_pages)
+        rec = rec_per_page.page(rec_per_page.num_pages)
+    print('filter record', records)
+    return render(request, 'Customer/ShowLaptop.html', {'records': rec, 'laptopfilter': laptopfilter})
 
-    return render(request, 'Customer/Customerlaptop.html', { 'users': users })
+def showMobile(request):
+    records = Mobile.objects.all()
+    mobilefilter = MobileFilter(request.GET, queryset=records)
+    rec_per_page = Paginator(mobilefilter.qs, 3)
+    print('PAGINATOR=', rec_per_page)
 
-def Customergroceryview (request):
-    user_list = Grocery.objects.all()
-    page = request.GET.get('page', 1)
+    page=request.GET.get('page',1)
+    print('PAGE=',page)
+    print(rec_per_page.count)
+    print(rec_per_page.num_pages)
+    print(rec_per_page.page_range)
 
-    paginator = Paginator(user_list, 5)
     try:
-        users = paginator.page(page)
+        rec = rec_per_page.page(page)
     except PageNotAnInteger:
-        users = paginator.page(1)
+        rec = rec_per_page.page(1)
     except EmptyPage:
-        users = paginator.page(paginator.num_pages)
+        rec = rec_per_page.page(rec_per_page.num_pages)
 
-    return render(request, 'Customer/Customergrocery.html', { 'users': users })
+    return render(request,'Customer/ShowMobile.html',{'records':rec, 'mobilefilter':mobilefilter})
 
+def showGrocery(request):
+    records = Grocery.objects.all()
+    groceryfilter = GroceryFilter(request.GET, queryset=records)
+    rec_per_page = Paginator(groceryfilter.qs, 3)
+    print('PAGINATOR=', rec_per_page)
 
-def Customermobileview (request):
-    user_list = Mobile.objects.all()
-    page = request.GET.get('page', 1)
+    page=request.GET.get('page',1)
+    print('PAGE=',page)
+    print(rec_per_page.count)
+    print(rec_per_page.num_pages)
+    print(rec_per_page.page_range)
 
-    paginator = Paginator(user_list, 5)
     try:
-        users = paginator.page(page)
+        rec = rec_per_page.page(page)
     except PageNotAnInteger:
-        users = paginator.page(1)
+        rec = rec_per_page.page(1)
     except EmptyPage:
-        users = paginator.page(paginator.num_pages)
+        rec = rec_per_page.page(rec_per_page.num_pages)
 
-    return render(request, 'Customer/Customermobile.html', { 'users': users })
+    return render(request,'Customer/ShowGrocery.html',{'records':rec, 'groceryfilter':groceryfilter})
+
+
+@login_required(login_url='login')
+def Customerordersview(request):
+    total=0
+    customer=Customer.objects.get(user=request.user)
+    address=Address.objects.filter(customer=customer)
+    order_item1=Order_item.objects.filter(customer=customer)
+    print(order_item1)
+    cartitems=len(order_item1)
+    for i in order_item1:
+        total=total+i.price
+        print(i.price)
+        print(bool(i.laptop))
+        print(type(i.laptop))
+    form=Ordersform()
+    form.fields['address'].queryset=address
+    if request.method == 'POST':
+        print(request.POST)
+        add=request.POST.get('address')
+        add1=Address.objects.get(id=add)
+        fname=request.POST.get('fname')
+        lname=request.POST.get('lname')
+        mobi=request.POST.get('mobile_no')
+        date=request.POST.get('date')
+        for i in order_item1:
+            if bool(i.laptop):
+                order=Custorders.objects.create(customer=customer,address=add1,fname=fname,lname=lname,laptop=i.laptop,price=i.price,items=i.quantity,mobile_no=mobi,date=date)
+            elif bool(i.mobile):
+                order=Custorders.objects.create(customer=customer,address=add1,fname=fname,lname=lname,mobile=i.mobile,price=i.price,items=i.quantity,mobile_no=mobi,date=date)
+            elif bool(i.grocery):
+                order=Custorders.objects.create(customer=customer,address=add1,fname=fname,lname=lname,grocery=i.grocery,price=i.price,items=i.quantity,mobile_no=mobi,date=date)
+            # order.order_item.add(i)  
+        return redirect('customerrazorpay')
+    template_name='Customer/Orders.html'
+    context={'form':form,'total':total,'cartitems':cartitems}
+    return render(request,template_name,context)
+
+@login_required(login_url='login')
+def Customerorderlistview(request):
+    customer=Customer.objects.get(user=request.user)
+    orderlist=Custorders.objects.filter(customer=customer)
+    print(orderlist)
+    totalorderitems=len(orderlist)
+    template_name='Customer/Customerorderslist.html'
+    context={'orderlist':orderlist,'totalorderitems':totalorderitems}
+    return render(request,template_name,context)
+
 
 

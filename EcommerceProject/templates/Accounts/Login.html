@@ -11,15 +11,7 @@
 {% block content %}
 
 <div  class='jumbotron' id='lbg' style="width: 35%; margin: 2% 30% ;height: 50%;">
-  <div style="color:red;">
-    {% if messages %}
-        {% for msj in messages %}
-        
-            {{msj}}
-      
-        {% endfor %}
-    {% endif %}
-  </div>
+  
     <h2 style="text-align: center;font-size:xx-large">sign-in</h2>
     <form method="POST">
         {% csrf_token %}
@@ -33,14 +25,20 @@
         </div>
         
         <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
-        <div>
+        <div style="color:red;">
+          {% if messages %}
+              {% for msj in messages %}
+              
+                  {{msj}}
             
-        
+              {% endfor %}
+          {% endif %}
         </div>
         <br>
-        <a href='#' ><button class="btn btn-primary btn-lg btn-block">Forgot-Password</button></a>
         
       </form>
+      <a href="{% url 'Customerforgotpass' %}" ><button type="submit" class="btn btn-primary btn-lg btn-block">Forgot-Password</button></a>
+      <br>
       <span style="font-size: medium;">Dont have a Account&nbsp;&nbsp;<a href="{% url 'register' %}">Create your account</a></span>
 </div>
 

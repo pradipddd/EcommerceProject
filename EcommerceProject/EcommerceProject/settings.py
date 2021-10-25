@@ -43,6 +43,10 @@ INSTALLED_APPS = [
     'Seller',
     'CustomerProfile',
     'CustomerPayment',
+    'UniversalSearch',
+    'django_filters',
+    
+    
 ]
 
 CRISPY_TEMPLATE_PACK='bootstrap4'

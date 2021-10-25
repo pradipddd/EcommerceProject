@@ -1,0 +1,172 @@
+{% extends 'Customer/Base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Search</title>
+{% endblock %}
+
+
+{% block content %}
+<br><br><br><br>
+{% if laptop %}
+<div class="container">
+    <div class="row">
+        {% for lap in laptop %}
+                <div class="card" style="width:30%;">
+                        <img src="{{lap.limage.url}}" style="width:100%;height: 100%;" class="img-fluid rounded-start"
+                            alt="Image Not Found">
+                        <div class="card-body">
+                            <h5 class="card-title"><b>{{lap.brand_name}} {{lap.model_name}}</b></h5>
+                            <p class="card-text">> {{lap.ram}}&nbsp;Gb RAM</p>
+                            <p class="card-text">> {{lap.rom}}&nbsp;Gb ROM</p>
+                            <p class="card-text">> {{lap.processor}}&nbsp;Processor</p>
+                            <p class="card-text"><b style="color: darkred;">> {{lap.price}}&nbsp;Rs</b></p>
+                            <p class="card-text">> {{lap.warranty}}&nbsp;Months&nbsp;Warranty</p>
+                            <p  class="card-text">> {{lap.product.seller}}&nbsp;Seller</p>
+                        </div>
+                        <br><br><br><br><br><br>
+                        <a href="{% url 'customerlaptopitem' lap.id %}" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                    
+                    &nbsp;&nbsp;
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% if mobile %}
+<div class="container">
+    <div class="row">
+    {% for mobi in mobile %}
+            <div class="card" style="width:30%;">
+                <img src="{{mobi.mimage.url}}" style="width:100%;height: 100%;" class="img-fluid rounded-start" alt="Image Not Found">
+                <div class="card-body">
+                    <h5 class="card-title"><b style="font-size: large;">{{mobi.brand_name}} {{mobi.model_name}}</b></h5>
+                    <p class="card-text">> {{mobi.ram}}&nbsp;Gb RAM</p>
+                    <p class="card-text">> {{mobi.rom}}&nbsp;Gb ROM</p>
+                    <p class="card-text">> {{mobi.processor}}&nbsp;Processor</p>
+                    <p class="card-text"><b style="color: darkred;">> {{mobi.price}}&nbsp;Rs</b></p>
+                    <p class="card-text">> {{mobi.warranty}}&nbsp;Months&nbsp;Warranty</p>
+                    <p class="card-text">> {{mobi.product.seller}}&nbsp;Seller</p>
+                    
+                </div>
+                <br><br><br><br><br><br>
+                <a href="{% url 'customermobileitem' mobi.id %}" class="btn btn-primary">Add to Cart</a>
+            </div>
+            &nbsp;&nbsp;
+    {% endfor %}
+    </div>
+    </div>
+    {% endif %}
+    {% if grocery %}
+    <div class="container">
+        <div class="row">
+        {% for gro in grocery %}
+        <div class="card" style="width:30%;">
+                    <img src="{{gro.gimage.url}}" style="width:100%;height: 100%;" class="img-fluid rounded-start" alt="Image Not Found">
+                    <div class="card-body">
+                        <h5 class="card-title"><b style="font-size: large;">{{gro.product_name}}</b></h5>
+                        <p class="card-text"><b style="color: darkred;">>{{gro.price}}&nbsp;Rs</b></p>
+                        <p class="card-text">>{{gro.warranty}}&nbsp;Months&nbsp;Expiry Date</p>
+                        <p class="card-text">>{{gro.product.seller}}&nbsp;Seller</p>
+                        
+                    </div>
+                    <br><br><br><br><br><br>
+                <a href="{% url 'customergroceryitem' gro.id %}" class="btn btn-primary">Add to Cart</a>
+                </div>
+                &nbsp;&nbsp;
+        {% endfor %}
+        </div>
+        </div>
+        {% endif %}
+{% if lapset %}
+<div class="container">
+    <div class="row">
+        {% for lap in lapset %}
+        <div class="card" style="width:30%;">
+                        <img src="{{lap.limage.url}}" style="width:100%;height: 100%;" class="img-fluid rounded-start"
+                            alt="Image Not Found">
+                        <div class="card-body">
+                            <h5 class="card-title"><b>{{lap.brand_name}} {{lap.model_name}}</b></h5>
+                            <p class="card-text">> {{lap.ram}}&nbsp;Gb RAM</p>
+                            <p class="card-text">> {{lap.rom}}&nbsp;Gb ROM</p>
+                            <p class="card-text">> {{lap.processor}}&nbsp;Processor</p>
+                            <p class="card-text"><b style="color: darkred;">> {{lap.price}}&nbsp;Rs</b></p>
+                            <p class="card-text">> {{lap.warranty}}&nbsp;Months&nbsp;Warranty</p>
+                            <p class="card-text">> {{lap.product.seller}}&nbsp;Seller</p>
+                            
+                        </div>
+                        <br><br><br><br><br><br>
+                        <a href="{% url 'customerlaptopitem' lap.id %}" class="btn btn-primary">Add to Cart</a>
+                      
+                    </div>
+                    &nbsp;&nbsp;
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if mobset %}
+<div class="container">
+    <div class="row">
+    {% for mobi in mobset %}
+    <div class="card" style="width:30%;">
+                <img src="{{mobi.mimage.url}}" style="width:100%;height: 100%;" class="img-fluid rounded-start" alt="Image Not Found">
+                <div class="card-body">
+                    <h5 class="card-title"><b style="font-size: large;">{{mobi.brand_name}} {{mobi.model_name}}</b></h5>
+                    <p class="card-text">> {{mobi.ram}}&nbsp;Gb RAM</p>
+                    <p class="card-text">> {{mobi.rom}}&nbsp;Gb ROM</p>
+                    <p class="card-text">> {{mobi.processor}}&nbsp;Processor</p>
+                    <p class="card-text"><b style="color: darkred;">> {{mobi.price}}&nbsp;Rs</b></p>
+                    <p class="card-text">> {{mobi.warranty}}&nbsp;Months&nbsp;Warranty</p>
+                    <p class="card-text">> {{mobi.product.seller}}&nbsp;Seller</p>
+                    
+                </div>
+                <br><br><br><br><br><br>
+                <a href="{% url 'customermobileitem' mobi.id %}" class="btn btn-primary">Add to Cart</a>
+                
+            </div>
+            &nbsp;&nbsp;
+    {% endfor %}
+    </div>
+    </div>
+    {% endif %}
+    
+        {% if groset %}
+        <div class="container">
+            <div class="row">
+            {% for gro in groset %}
+            <div class="card" style="width:30%;">
+                        <img src="{{gro.gimage.url}}" style="width:100%;height: 100%;" class="img-fluid rounded-start" alt="Image Not Found">
+                        <div class="card-body">
+                            <h5 class="card-title"><b style="font-size: large;">{{gro.product_name}}</b></h5>
+                            <p class="card-text"><b style="color: darkred;">>{{gro.price}}&nbsp;Rs</b></p>
+                            <p class="card-text">>{{gro.warranty}}&nbsp;Months&nbsp;Expiry Date</p>
+                            <p class="card-text">>{{gro.product.seller}}&nbsp;Seller</p>
+                            
+                        </div>
+                        <br><br><br><br><br><br>
+                <a href="{% url 'customergroceryitem' gro.id %}" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                    &nbsp;&nbsp;
+            {% endfor %}
+            </div>
+            </div>
+{% endif %}
+
+{% if blank %}
+    <div>
+    <div class="card bg-dark text-white">
+        <img src="{% static 'UniversalSearch/Images/blank.jpg' %}" style="width:100%;height: 100%;" class="card-img" alt="...">
+        <div class="card-img-overlay" style="margin: 15% 20%;text-align: center;">
+        <h2 class="card-title"><b><i class="bi bi-exclamation-triangle"></i><svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+            <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+            <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+          </svg></b></h2><br>
+        <p class="card-text"><b style="font-size:xx-large;">No Record is Found !!!!</b></p><br>
+        <p class="card-text"><b style="font-size:large;color: white;">Try Again!!!</b></p>
+        </div>
+    </div>
+    </div>
+{% endif %}
+
+{% endblock %}

@@ -4,7 +4,12 @@
 <div class="jumbotron" style="width: 40%;margin: 3% 30%;">
 <form method="post" id="profileForm" class="form-group" style="font-size: medium;" state_url="{% url 'ajax_load_states' %}" city_url="{% url 'ajax_load_cities' %}">
     {% csrf_token %}
-    {{form|crispy}}
+    {% for field in form %}
+      {{field.label}}
+      {{field}}
+      <br><br>
+    {% endfor %}
+    
     <button class="btn btn-info btn-lg btn-block">Add Address</button>
 </form>
 </div>

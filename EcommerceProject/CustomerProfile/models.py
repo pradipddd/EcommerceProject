@@ -33,3 +33,7 @@ class Address(models.Model):
     city=models.ForeignKey(City,on_delete=models.CASCADE,blank=True, null=True)
     address=models.CharField(max_length=500,default=None)
     address_type=models.CharField(max_length=20,default=None)
+
+    def __str__(self):
+        return f'{self.address}'
+
